@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Engine</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Master the Ever-Evolving World of <span>Search</span></h1>
+      <p>
+        Discover powerful insights, expert guides, and actionable knowledge.  
+        Our modern search engine helps you explore information faster and smarter.
+      </p>
+
+      <!-- Search bar -->
+      <form method="POST" class="search-box">
+        <input type="text" name="query" placeholder="Type to search..." value="{{ query }}" required>
+        <button type="submit" class="btn-search">Search</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="results">
+    {% if results %}
+      <h2>Search Results</h2>
+      <div class="cards">
+        {% for filename, score in results %}
+        <div class="card">
+          <!-- Tambahkan link ke dokumen -->
+          <h3>
+            <a href="{{ url_for('open_document', filename=filename) }}" target="_blank">
+              {{ filename }}
+            </a>
+          </h3>
+          <span class="score">Relevance: {{ '%.4f'|format(score) }}</span>
+        </div>
+        {% endfor %}
+      </div>
+    {% elif query %}
+      <div class="no-result">
+        <p>❌ Tidak ada hasil yang ditemukan untuk <b>{{ query }}</b></p>
+      </div>
+    {% endif %}
+  </section>
+</body>
+</html>
